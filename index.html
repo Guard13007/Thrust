@@ -36,7 +36,7 @@
 
 
 		var Ship=function(x,y){
-			this.color="red";
+			this.color="blue";
 			this.x=x;
 			this.y=y;
 			this.width=40;
@@ -56,7 +56,7 @@
 			this.y=y;
 			this.width=4;
 			this.height=8;
-			this.color=[0,200,250];
+			this.color=[240,0,0];
 			this.v=new vector(Vx,Vy);
 		};
 		Exhaust.prototype.draw=function(){
@@ -244,8 +244,11 @@
 			forEach(ship.exhaust,function(b){
 				//if(b.color>50)
 				//b.color-=1;
-				if(b.color[0]<b.color[2]) {
-					b.color[0]+=25;
+				if(b.color[1]<b.color[0]){
+					b.color[1]+=12;
+				}else
+				if(b.color[2]<b.color[0]) {
+					b.color[2]+=24;
 				} else {
 					b.color[0]-=12;
 					b.color[1]-=12;
