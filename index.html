@@ -130,8 +130,18 @@
 				){
 					//collision!
 					//ship.exhaust.splice(ship.exhaust.indexOf(b),1);
-					b.v.x+=ship.v.x;
-					b.v.y+=ship.v.y;
+					/**/b.v.x+=ship.v.x;
+					b.v.y+=ship.v.y;//*/
+					/*if(b.v.x>0 && ship.v.x>0 || b.v.x<0 && ship.v.x<0){
+						b.v.x+=ship.v.x;
+					}else{
+						b.v.x-=ship.v.x;
+					}
+					if(b.v.y>0 && ship.v.y>0 || b.v.y<0 && ship.v.y<0){
+						b.v.y+=ship.v.y;
+					}else{
+						b.v.y-=ship.v.y;
+					}*/
 				}
 			});
 			//update ship velocity
