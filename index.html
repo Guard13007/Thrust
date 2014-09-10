@@ -254,7 +254,7 @@
 					b.color[1]-=12;
 					b.color[2]-=12;
 				}
-				if(b.color<1)ship.exhaust.splice(ship.exhaust.indexOf(b),1);
+				if(b.color[0]<1)ship.exhaust.splice(ship.exhaust.indexOf(b),1);
 			});
 
 			setTimeout(loop,31);
