@@ -35,9 +35,6 @@
 			for (var i=0;i<arr.length;i++)
 				func(arr[i]);
 		}
-		function random(min,max){
-			return Math.random()*(max-min)+min;
-		}
 		function clear(){
 			context.clearRect(0,0,window.innerWidth,window.innerHeight);
 		}
@@ -48,20 +45,20 @@
 			//check ship border collisions
 			if(ship.y>window.innerHeight-ship.height/2){
 				ship.y=window.innerHeight-ship.height/2;
-				ship.v.y=0;
+				ship.v.y=0-ship.v.y*0.5;
 				ship.v.x*=0.8;
 			}else if(ship.y<0+ship.height/2){
 				ship.y=0+ship.height/2;
-				ship.v.y=0;
+				ship.v.y=0-ship.v.y*0.5;
 				ship.v.x*=0.8;
 			}
 			if(ship.x>window.innerWidth-ship.width/2){
 				ship.x=window.innerWidth-ship.width/2;
-				ship.v.x=0;
+				ship.v.x=0-ship.v.x*0.5;
 				ship.v.y*=0.8;
 			}else if(ship.x<0+ship.width/2){
 				ship.x=0+ship.width/2;
-				ship.v.x=0;
+				ship.v.x=0-ship.v.x*0.5;
 				ship.v.y*=0.8;
 			}
 			//update exhaust pos
@@ -117,85 +114,85 @@
 			forEach(ship.exhaust,function(b){
 				b.v.x*=0.9;
 				b.v.y*=0.9;
-				//slight random variations
-				b.v.x+=random(-0.3*b.v.x,0.3*b.v.x);
-				b.v.y+=random(-0.3*b.v.y,0.3*b.v.y);
+				//slight random.number variations
+				b.v.x+=random.number(-0.3*b.v.x,0.3*b.v.x);
+				b.v.y+=random.number(-0.3*b.v.y,0.3*b.v.y);
 			});
 			//check input, new exhaust and +velocity if exists
 			if (io.keysHeld[87]){	//W
 				ship.v.y-=1;
 				ship.exhaust.push(new Particle(
-					random(ship.x-20,ship.x+20),
-					random(ship.y+15,ship.y+20),
-					random(ship.v.x-1,ship.v.x+1),
-					random(ship.v.y+speeds.exhaustMinVelocity,ship.v.y+speeds.exhaustMaxVelocity)),
+					random.number(ship.x-20,ship.x+20),
+					random.number(ship.y+15,ship.y+20),
+					random.number(ship.v.x-1,ship.v.x+1),
+					random.number(ship.v.y+speeds.exhaustMinVelocity,ship.v.y+speeds.exhaustMaxVelocity)),
 				new Particle(
-					random(ship.x-20,ship.x+20),
-					random(ship.y+15,ship.y+20),
-					random(ship.v.x-1,ship.v.x+1),
-					random(ship.v.y+speeds.exhaustMinVelocity,ship.v.y+speeds.exhaustMaxVelocity)),
+					random.number(ship.x-20,ship.x+20),
+					random.number(ship.y+15,ship.y+20),
+					random.number(ship.v.x-1,ship.v.x+1),
+					random.number(ship.v.y+speeds.exhaustMinVelocity,ship.v.y+speeds.exhaustMaxVelocity)),
 				new Particle(
-					random(ship.x-20,ship.x+20),
-					random(ship.y+15,ship.y+20),
-					random(ship.v.x-1,ship.v.x+1),
-					random(ship.v.y+speeds.exhaustMinVelocity,ship.v.y+speeds.exhaustMaxVelocity))
+					random.number(ship.x-20,ship.x+20),
+					random.number(ship.y+15,ship.y+20),
+					random.number(ship.v.x-1,ship.v.x+1),
+					random.number(ship.v.y+speeds.exhaustMinVelocity,ship.v.y+speeds.exhaustMaxVelocity))
 				);
 			}
 			if (io.keysHeld[65]){	//A
 				ship.v.x-=1;
 				ship.exhaust.push(new Particle(
-					random(ship.x+15,ship.x+20),
-					random(ship.y-20,ship.y+20),
-					random(ship.v.x+speeds.exhaustMinVelocity,ship.v.x+speeds.exhaustMaxVelocity),
-					random(ship.v.y-1,ship.v.y+1)),
+					random.number(ship.x+15,ship.x+20),
+					random.number(ship.y-20,ship.y+20),
+					random.number(ship.v.x+speeds.exhaustMinVelocity,ship.v.x+speeds.exhaustMaxVelocity),
+					random.number(ship.v.y-1,ship.v.y+1)),
 				new Particle(
-					random(ship.x+15,ship.x+20),
-					random(ship.y-20,ship.y+20),
-					random(ship.v.x+speeds.exhaustMinVelocity,ship.v.x+speeds.exhaustMaxVelocity),
-					random(ship.v.y-1,ship.v.y+1)),
+					random.number(ship.x+15,ship.x+20),
+					random.number(ship.y-20,ship.y+20),
+					random.number(ship.v.x+speeds.exhaustMinVelocity,ship.v.x+speeds.exhaustMaxVelocity),
+					random.number(ship.v.y-1,ship.v.y+1)),
 				new Particle(
-					random(ship.x+15,ship.x+20),
-					random(ship.y-20,ship.y+20),
-					random(ship.v.x+speeds.exhaustMinVelocity,ship.v.x+speeds.exhaustMaxVelocity),
-					random(ship.v.y-1,ship.v.y+1))
+					random.number(ship.x+15,ship.x+20),
+					random.number(ship.y-20,ship.y+20),
+					random.number(ship.v.x+speeds.exhaustMinVelocity,ship.v.x+speeds.exhaustMaxVelocity),
+					random.number(ship.v.y-1,ship.v.y+1))
 				);
 			}
 			if (io.keysHeld[83]){	//S
 				ship.v.y+=1;
 				ship.exhaust.push(new Particle(
-					random(ship.x-20,ship.x+20),
-					random(ship.y-20,ship.y-15),
-					random(ship.v.x-1,ship.v.x+1),
-					random(ship.v.y-speeds.exhaustMaxVelocity,ship.v.y-speeds.exhaustMinVelocity)),
+					random.number(ship.x-20,ship.x+20),
+					random.number(ship.y-20,ship.y-15),
+					random.number(ship.v.x-1,ship.v.x+1),
+					random.number(ship.v.y-speeds.exhaustMaxVelocity,ship.v.y-speeds.exhaustMinVelocity)),
 				new Particle(
-					random(ship.x-20,ship.x+20),
-					random(ship.y-20,ship.y-15),
-					random(ship.v.x-1,ship.v.x+1),
-					random(ship.v.y-speeds.exhaustMaxVelocity,ship.v.y-speeds.exhaustMinVelocity)),
+					random.number(ship.x-20,ship.x+20),
+					random.number(ship.y-20,ship.y-15),
+					random.number(ship.v.x-1,ship.v.x+1),
+					random.number(ship.v.y-speeds.exhaustMaxVelocity,ship.v.y-speeds.exhaustMinVelocity)),
 				new Particle(
-					random(ship.x-20,ship.x+20),
-					random(ship.y-20,ship.y-15),
-					random(ship.v.x-1,ship.v.x+1),
-					random(ship.v.y-speeds.exhaustMaxVelocity,ship.v.y-speeds.exhaustMinVelocity))
+					random.number(ship.x-20,ship.x+20),
+					random.number(ship.y-20,ship.y-15),
+					random.number(ship.v.x-1,ship.v.x+1),
+					random.number(ship.v.y-speeds.exhaustMaxVelocity,ship.v.y-speeds.exhaustMinVelocity))
 				);
 			}
 			if (io.keysHeld[68]){	//D
 				ship.v.x+=1;
 				ship.exhaust.push(new Particle(
-					random(ship.x-20,ship.x-15),
-					random(ship.y-20,ship.y+20),
-					random(ship.v.x-speeds.exhaustMaxVelocity,ship.v.x-speeds.exhaustMinVelocity),
-					random(ship.v.y-1,ship.v.y+1)),
+					random.number(ship.x-20,ship.x-15),
+					random.number(ship.y-20,ship.y+20),
+					random.number(ship.v.x-speeds.exhaustMaxVelocity,ship.v.x-speeds.exhaustMinVelocity),
+					random.number(ship.v.y-1,ship.v.y+1)),
 				new Particle(
-					random(ship.x-20,ship.x-15),
-					random(ship.y-20,ship.y+20),
-					random(ship.v.x-speeds.exhaustMaxVelocity,ship.v.x-speeds.exhaustMinVelocity),
-					random(ship.v.y-1,ship.v.y+1)),
+					random.number(ship.x-20,ship.x-15),
+					random.number(ship.y-20,ship.y+20),
+					random.number(ship.v.x-speeds.exhaustMaxVelocity,ship.v.x-speeds.exhaustMinVelocity),
+					random.number(ship.v.y-1,ship.v.y+1)),
 				new Particle(
-					random(ship.x-20,ship.x-15),
-					random(ship.y-20,ship.y+20),
-					random(ship.v.x-speeds.exhaustMaxVelocity,ship.v.x-speeds.exhaustMinVelocity),
-					random(ship.v.y-1,ship.v.y+1))
+					random.number(ship.x-20,ship.x-15),
+					random.number(ship.y-20,ship.y+20),
+					random.number(ship.v.x-speeds.exhaustMaxVelocity,ship.v.x-speeds.exhaustMinVelocity),
+					random.number(ship.v.y-1,ship.v.y+1))
 				);
 			}
 			//draw
