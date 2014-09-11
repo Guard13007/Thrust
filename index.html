@@ -7,6 +7,11 @@
 		*{margin:0px;padding:0px;}
 		canvas{width:100%;height:100%;background:black;position:absolute;}
 	</style>
+	<script type="text/javascript" src="js/lib/dat.gui.min.js"></script>
+	<script type="text/javascript" src="js/lib/Jenjens.min.js"></script>
+	<script type="text/javascript" src="js/lib/Jenjens-alias.js"></script>
+	<script type="text/javascript" src="js/Ships.js"></script>
+	<script type="text/javascript" src="js/Particles.js"></script>
 	<script>
 		var canvas,context,ship;
 		var io={
@@ -25,47 +30,6 @@
 			exhaustMinVelocity:16,//9,
 			exhaustMaxVelocity:20//12
 		};
-
-
-
-		var vector=function(x,y){
-			x? this.x=x : this.x=0;
-			y? this.y=y : this.y=0;
-		};
-
-
-
-		var Ship=function(x,y){
-			this.color="blue";
-			this.x=x;
-			this.y=y;
-			this.width=40;
-			this.height=40;
-			this.v=new vector();
-			this.exhaust=[];
-		};
-		Ship.prototype.draw=function(){
-			context.fillStyle=this.color;
-			context.fillRect(this.x-this.width/2,this.y-this.height/2,this.width,this.height);
-		};
-
-
-
-		var Exhaust=function(x,y,Vx,Vy){
-			this.x=x;
-			this.y=y;
-			this.width=4;
-			this.height=8;
-			this.color=[240,0,0];
-			this.v=new vector(Vx,Vy);
-		};
-		Exhaust.prototype.draw=function(){
-			context.fillStyle="rgb("+this.color[0]+","+this.color[1]+","+this.color[2]+")";
-			//context.fillStyle="rgb("+this.color+","+this.color+","+this.color+")";
-			context.fillRect(this.x-this.width/2,this.y-this.height/2,this.width,this.height);
-		};
-
-
 
 		function forEach(arr,func){
 			for (var i=0;i<arr.length;i++)
@@ -259,7 +223,6 @@
 
 			setTimeout(loop,31);
 		}
-
 
 
 		window.onkeydown=io.keyDown;
