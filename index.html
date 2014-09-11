@@ -14,7 +14,7 @@
 	<script type="text/javascript" src="js/Particles.js"></script>
 	<script>
 		var canvas,context,ship;
-		var io={
+		var io={ //draw
 			keysHeld:[],
 			keyDown:function(e){
 				var code=e.keyCode? e.keyCode : e.charCode;
@@ -124,17 +124,17 @@
 			//check input, new exhaust and +velocity if exists
 			if (io.keysHeld[87]){	//W
 				ship.v.y-=1;
-				ship.exhaust.push(new Exhaust(
+				ship.exhaust.push(new Particle(
 					random(ship.x-20,ship.x+20),
 					random(ship.y+15,ship.y+20),
 					random(ship.v.x-1,ship.v.x+1),
 					random(ship.v.y+speeds.exhaustMinVelocity,ship.v.y+speeds.exhaustMaxVelocity)),
-				new Exhaust(
+				new Particle(
 					random(ship.x-20,ship.x+20),
 					random(ship.y+15,ship.y+20),
 					random(ship.v.x-1,ship.v.x+1),
 					random(ship.v.y+speeds.exhaustMinVelocity,ship.v.y+speeds.exhaustMaxVelocity)),
-				new Exhaust(
+				new Particle(
 					random(ship.x-20,ship.x+20),
 					random(ship.y+15,ship.y+20),
 					random(ship.v.x-1,ship.v.x+1),
@@ -143,17 +143,17 @@
 			}
 			if (io.keysHeld[65]){	//A
 				ship.v.x-=1;
-				ship.exhaust.push(new Exhaust(
+				ship.exhaust.push(new Particle(
 					random(ship.x+15,ship.x+20),
 					random(ship.y-20,ship.y+20),
 					random(ship.v.x+speeds.exhaustMinVelocity,ship.v.x+speeds.exhaustMaxVelocity),
 					random(ship.v.y-1,ship.v.y+1)),
-				new Exhaust(
+				new Particle(
 					random(ship.x+15,ship.x+20),
 					random(ship.y-20,ship.y+20),
 					random(ship.v.x+speeds.exhaustMinVelocity,ship.v.x+speeds.exhaustMaxVelocity),
 					random(ship.v.y-1,ship.v.y+1)),
-				new Exhaust(
+				new Particle(
 					random(ship.x+15,ship.x+20),
 					random(ship.y-20,ship.y+20),
 					random(ship.v.x+speeds.exhaustMinVelocity,ship.v.x+speeds.exhaustMaxVelocity),
@@ -162,17 +162,17 @@
 			}
 			if (io.keysHeld[83]){	//S
 				ship.v.y+=1;
-				ship.exhaust.push(new Exhaust(
+				ship.exhaust.push(new Particle(
 					random(ship.x-20,ship.x+20),
 					random(ship.y-20,ship.y-15),
 					random(ship.v.x-1,ship.v.x+1),
 					random(ship.v.y-speeds.exhaustMaxVelocity,ship.v.y-speeds.exhaustMinVelocity)),
-				new Exhaust(
+				new Particle(
 					random(ship.x-20,ship.x+20),
 					random(ship.y-20,ship.y-15),
 					random(ship.v.x-1,ship.v.x+1),
 					random(ship.v.y-speeds.exhaustMaxVelocity,ship.v.y-speeds.exhaustMinVelocity)),
-				new Exhaust(
+				new Particle(
 					random(ship.x-20,ship.x+20),
 					random(ship.y-20,ship.y-15),
 					random(ship.v.x-1,ship.v.x+1),
@@ -181,17 +181,17 @@
 			}
 			if (io.keysHeld[68]){	//D
 				ship.v.x+=1;
-				ship.exhaust.push(new Exhaust(
+				ship.exhaust.push(new Particle(
 					random(ship.x-20,ship.x-15),
 					random(ship.y-20,ship.y+20),
 					random(ship.v.x-speeds.exhaustMaxVelocity,ship.v.x-speeds.exhaustMinVelocity),
 					random(ship.v.y-1,ship.v.y+1)),
-				new Exhaust(
+				new Particle(
 					random(ship.x-20,ship.x-15),
 					random(ship.y-20,ship.y+20),
 					random(ship.v.x-speeds.exhaustMaxVelocity,ship.v.x-speeds.exhaustMinVelocity),
 					random(ship.v.y-1,ship.v.y+1)),
-				new Exhaust(
+				new Particle(
 					random(ship.x-20,ship.x-15),
 					random(ship.y-20,ship.y+20),
 					random(ship.v.x-speeds.exhaustMaxVelocity,ship.v.x-speeds.exhaustMinVelocity),
@@ -201,9 +201,9 @@
 			//draw
 			clear();
 			forEach(ship.exhaust,function(b){
-				b.draw();
+				b.draw(context);
 			});
-			ship.draw();
+			ship.draw(context);
 			//decrease visibility and remove black exhaust
 			forEach(ship.exhaust,function(b){
 				//if(b.color>50)

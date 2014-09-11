@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Thrust</title>
+	<style>
+		*{margin:0px;padding:0px;}
+		canvas{width:100%;height:100%;background:black;position:absolute;}
+	</style>
+	<script type="text/javascript" src="js/lib/Jenjens.min.js"></script>
+	<script type="text/javascript" src="js/lib/Jenjens-alias.js"></script>
+	<script type="text/javascript" src="js/Ships.js"></script>
+	<script type="text/javascript" src="js/Particles.js"></script>
+	<script>
+		var cvs,ctx; //canvas,context
+
+		var Game={
+			iterationDelay:33,
+			borderDrag:0.8,
+			particleBounceDrag:0.9,
+			gravitationalAcceleration:0.4,
+			atmosphericDrag:0.98,
+			artificalDrag:0.88,
+			artificalRandomness:0.33,
+			playerID:0,
+			engineAcceleration:1,
+			minExhaustVelocity:16,
+			maxExhaustVelocity:20,
+			exhaustRandomness:1.2,
+			ships:[]
+		};
+
+		io.addEvent('keydown',io.keyDown);
+		//window.onkeydown=io.keyDown;
+		//window.onkeyup=io.keyUp;
+		io.addEvent('keyup',io.keyUp);
+		io.addEvent('load',function(){
+		//window.onload=function(){
+			cvs=document.getElementsByTagName('canvas')[0];
+			cvs.width=window.innerWidth;
+			cvs.height=window.innerHeight;
+			ctx=cvs.getContext('2d');
+
+			Game.ships.push(new Ship(20,20,window.innerWidth/2,window.innerHeight/2));
+			//ship=new Ship(window.innerWidth/2,window.innerHeight/2);
+			loop();
+		//};
+		});
+		io.addEvent('resize',function(){
+		//window.resize=function(){
+			cvs.width=window.innerWidth;
+			cvs.height=window.innerHeight;
+		//};
+		});
+
+		function loop(){
+			ctx.clearRect(0,0,window.innerWidth,window.innerHeight);
+			//Update positions & check border collisions
+			forEach(Game.ships,function(b){
+				b.x+=b.v.x;
+				b.y+=b.v.y;
+				if (b.y > window.innerHeight-b.height/2) {
+					b.y = window.innerHeight-b.height/2;
+					b.v.y=0;
+					b.v.x*=Game.borderDrag;
+				} else if (b.y < 0+b.height/2) {
+					b.y = 0+b.height/2;
+					b.v.y=0;
+					b.v.x*=Game.borderDrag;
+				}
+				if (b.x > window.innerWidth-b.width/2) {
+					b.x = window.innerWidth-b.width/2;
+					b.v.x=0;
+					b.v.y*=Game.borderDrag;
+				} else if (b.x < 0+b.width/2) {
+					b.x = 0+b.width/2;
+					b.v.x=0;
+					b.v.y*=Game.borderDrag;
+				}
+			});
+			forEach(Game.ships,function(a){
+				forEach(a.particles,function(b){
+					b.x+=b.v.x;
+					b.y+=b.v.y;
+					if (b.y > window.innerHeight-b.height/2) {
+						b.y = window.innerHeight-b.height/2;
+						b.v.y=0;
+						b.v.x*=Game.borderDrag;
+					} else if (b.y < 0+b.height/2) {
+						b.y = 0+b.height/2;
+						b.v.y=0;
+						b.v.x*=Game.borderDrag;
+					}
+					if (b.x > window.innerWidth-b.width/2) {
+						b.x = window.innerWidth-b.width/2;
+						b.v.x=0;
+						b.v.y*=Game.borderDrag;
+					} else if (b.x < 0+b.width/2) {
+						b.x = 0+b.width/2;
+						b.v.x=0;
+						b.v.y*=Game.borderDrag;
+					}
+					//particle to ship collisions
+					if (b.x-b.width/2  < a.x+a.width/2 &&
+						b.x+b.width/2  > a.x-a.width/2 &&
+						b.y-b.height/2 < a.y+a.height/2 &&
+						b.y+b.height/2 > a.y-a.width/2){
+						b.v.x+=a.v.x;
+						b.v.y+=a.v.y;
+					}
+					//Update particle velocity based on artifical drag & randomness.
+					b.v.x*=Game.artificalDrag;
+					b.v.y*=Game.artificalDrag;
+					b.v.x+=random.number(-Game.artificalRandomness*b.v.x,Game.artificalRandomness*b.v.x);
+					b.v.y+=random.number(-Game.artificalRandomness*b.v.y,
+						Game.artificalRandomness*b.v.y);
+					//Draw
+					b.draw(ctx);
+				});
+				//Update ship velocity based on gravity and drag.
+				a.v.y+=Game.gravitationalAcceleration;
+				a.v.x*=Game.atmosphericDrag;
+				a.v.y*=Game.atmosphericDrag;
+				//Draw
+				a.draw(ctx); //dis bad place for it
+			});
+			//Check input, change velocity.
+			if (io.keysHeld[87] || io.keysHeld[38]) {		//W OR UP
+				Game.ships[Game.playerID].v.y+=Game.engineAcceleration;
+				Game.ships[Game.playerID].exhaust('down');
+			}
+			if (io.keysHeld[65] || io.keysHeld[37]) {		//A OR LEFT
+				Game.ships[Game.playerID].v.x-=Game.engineAcceleration;
+				Game.ships[Game.playerID].exhaust('right');
+			}
+			if (io.keysHeld[83] || io.keysHeld[40]) {		//S OR DOWN
+				Game.ships[Game.playerID].v.y-=Game.engineAcceleration;
+				Game.ships[Game.playerID].exhaust('up');
+			}
+			if (io.keysHeld[68] || io.keysHeld[39]) {		//D OR RIGHT
+				Game.ships[Game.playerID].v.x+=Game.engineAcceleration;
+				Game.ships[Game.playerID].exhaust('left');
+			}
+
+			setTimeout(loop,Game.iterationDelay);
+
+			/*
+
+//learn how to use JSDoc and document this!!
+var Particle=function(location,effect,size,parent){
+	// location = {x,y,Vx,Vy};
+	// effect = {r,g,b,method};
+	// size = {width,height};
+
+	/*x? this.x=x : this.x=0;
+	y? this.y=y : this.y=0;
+	this.v = new vector(Vx,Vy);*-/
+	if (location) {
+		this.x=location.x;
+		this.y=location.y;
+		this.v = new vector(location.Vx,location.Vy);
+	} else {
+		this.x=0;
+		this.y=0;
+		this.v = new vector();
+	}
+	if (effect) {
+		this.color=[
+			effect.r,
+			effect.g,
+			effect.b
+		];
+		this.effect=effect.method;
+	} else {
+		this.color=[255,255,255];
+	}
+	if (size) {
+		this.width=size.width;
+		this.height=size.height;
+	} else {
+		this.width=1;
+		this.height=1;
+	}
+	if (parent) this.parent=parent;
+};
+Particle.effects={
+	standard:function(){
+		this.color[0]-=1;
+		this.color[1]-=1;
+		this.color[2]-=1;
+		if (this.color[0]<1) this.remove();
+	}
+};
+Particle.prototype={
+	effect:Particle.effects.standard,
+	remove:function(){
+		if (this.parent){
+			if (this.parent.splice){
+				this.parent.splice(this.parent.indexOf(this),1);
+			}
+			delete this;
+		}
+	},
+	draw:function(context){
+		if (!context) context=ctx;
+		context.fillStyle="rgb"+this.color[0]+","+this.color[1]+","+this.color[2]+")";
+		context.fillRect(this.x-this.width/2,this.y-this.height/2,this.width,this.height);
+	}
+};
+
+//new Particle({x,y,Vx,Vy},{r:240,g:0,b:0},{width:2,height:4},this);
+
+
+
+			*/
+			/*
+
+var Ship=function(x,y,width,height,exhaust){
+	color? this.color=color : this.color='blue';
+	x? this.x=x : this.x=0;
+	y? this.y=y : this.y=0;
+	width? this.width=width : this.width=1;
+	height? this.height=height : this.height=1;
+	this.v = new vector();
+	this.particles=[];
+	if (exhaust) this.exhaust=exhaust;
+};
+Ship.prototype={
+	draw:function(context){
+		context.fillStyle=this.color;
+		context.fillRect(this.x-this.width/2,this.y-this.height/2,this.width,this.height);
+	},
+	exhaust:function(d){
+		var particle=new Particle(
+			{x:this.x,y:this.y,Vx:this.v.x,Vy:this.v.y},
+			{r:240,g:0,b:0,method:function(){
+				if (b.color[1] < b.color[0]) {
+					b.color[1]+=12;
+				} else if (b.color[2] < b.color[0]) {
+					b.color[0]-=12;
+					b.color[1]-=12;
+					b.color[2]-=12;
+				}
+				if (b.color[0] < 1) b.remove();
+			}},
+			{width:2,height:2},
+			this.particles
+		);
+
+		//
+		if (d=='up') {
+			particle.x+=random.number(-this.width/2,this.width/2); //random X
+			particle.y+=this.height/2; //to edge on Y axis
+			particle.v.x+=random.number(-Game.exhaustRandomness,Game.exhaustRandomness); //random slight variation
+			particle.v.y+=random.number(Game.minExhaustVelocity,Game.maxExhaustVelocity); //acelerate away
+		} else if (d=='left') {
+			//
+		} else if (d=='right') {
+			//
+		} else if (d=='down') {
+			particle.x+=random.number(-this.width/2,this.width/2); //random X
+			particle.y-=this.height/2; //to edge on Y axis
+			particle.v.x+=random.number(-Game.exhaustRandomness,Game.exhaustRandomness); //random slight variation
+			particle.v.y-=random.number(Game.minExhaustVelocity,Game.maxExhaustVelocity); //acelerate away
+			//
+		}
+
+		this.particles.push(particle);
+	}
+};
+
+
+
+			*/
+		}
+	</script>
+</head>
+<body>
+	<canvas></canvas>
+</body>
+</html>
