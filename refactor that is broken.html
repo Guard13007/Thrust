@@ -183,34 +183,6 @@ var Particle=function(location,effect,size,parent){
 	}
 	if (parent) this.parent=parent;
 };
-Particle.effects={
-	standard:function(){
-		this.color[0]-=1;
-		this.color[1]-=1;
-		this.color[2]-=1;
-		if (this.color[0]<1) this.remove();
-	}
-};
-Particle.prototype={
-	effect:Particle.effects.standard,
-	remove:function(){
-		if (this.parent){
-			if (this.parent.splice){
-				this.parent.splice(this.parent.indexOf(this),1);
-			}
-			delete this;
-		}
-	},
-	draw:function(context){
-		if (!context) context=ctx;
-		context.fillStyle="rgb"+this.color[0]+","+this.color[1]+","+this.color[2]+")";
-		context.fillRect(this.x-this.width/2,this.y-this.height/2,this.width,this.height);
-	}
-};
-
-//new Particle({x,y,Vx,Vy},{r:240,g:0,b:0},{width:2,height:4},this);
-
-
 
 		//	*/
 			//*
