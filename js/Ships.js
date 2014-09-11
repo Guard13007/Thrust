@@ -12,7 +12,7 @@ Ship.prototype={
 		context.fillStyle=this.color;
 		context.fillRect(this.x-this.width/2,this.y-this.height/2,this.width,this.height);
 	},
-	exhaust:function(){
+	exhaust:function(direction,amount){
 		//location,effect,size,speed,parent
 		var particle = new Particle(
 			{x:this.x,y:this.y},
@@ -26,9 +26,32 @@ Ship.prototype={
 				}
 				if (this.color[0] < 1) this.remove();
 			}},
-			{width:2,height:2},
+			{width:random.number(1,10),height:random.number(1,10)},
 			{x:this.v.x,y:this.v.y},
 			this.particles
 		);
+		if (direction=='up') {
+			particle.x+=random.number(-this.width/2,this.width/2);
+			particle.y-=this.height/2;
+			particle.v.x+=random.number(-Game.exhaustRandomness,Game.exhaustRandomness);
+			particle.v.y-=random.number(Game.minExhaustVelocity,Game.maxExhaustVelocity);
+		} else if (direction=='left') {
+			particle.x-=this.width/2;
+			particle.y+=random.number(-this.height/2,this.height/2);
+			particle.v.x-=random.number(Game.minExhaustVelocity,Game.maxExhaustVelocity);
+			particle.v.y+=random.number(-Game.exhaustRandomness,Game.exhaustRandomness);
+		} else if (direction=='right') {
+			particle.x+=this.width/2;
+			particle.y+=random.number(-this.height/2,this.height/2);
+			particle.v.x+=random.number(Game.minExhaustVelocity,Game.maxExhaustVelocity);
+			particle.v.y+=random.number(-Game.exhaustRandomness,Game.exhaustRandomness);
+		} else if (direction=='down') {
+			particle.x+=random.number(-this.width/2,this.width/2);
+			particle.y+=this.height/2;
+			particle.v.x+=random.number(-Game.exhaustRandomness,Game.exhaustRandomness);
+			particle.v.y+=random.number(Game.minExhaustVelocity,Game.maxExhaustVelocity);
+		}
+
+		this.particles.push(particle);
 	}
 };
