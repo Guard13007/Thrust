@@ -24,33 +24,13 @@
 			artificalRandomness:0.33,
 			playerID:0,
 			engineAcceleration:1,
-			minExhaustVelocity:16,
-			maxExhaustVelocity:20,
-			exhaustRandomness:1.2,
 			ships:[]
 		};
 
-		io.addEvent('keydown',io.keyDown);
-		//window.onkeydown=io.keyDown;
-		//window.onkeyup=io.keyUp;
-		io.addEvent('keyup',io.keyUp);
 		io.addEvent('load',function(){
-		//window.onload=function(){
-			cvs=document.getElementsByTagName('canvas')[0];
-			cvs.width=window.innerWidth;
-			cvs.height=window.innerHeight;
-			ctx=cvs.getContext('2d');
-
 			Game.ships.push(new Ship(20,20,window.innerWidth/2,window.innerHeight/2));
 			//ship=new Ship(window.innerWidth/2,window.innerHeight/2);
 			loop();
-		//};
-		});
-		io.addEvent('resize',function(){
-		//window.resize=function(){
-			cvs.width=window.innerWidth;
-			cvs.height=window.innerHeight;
-		//};
 		});
 
 		function loop(){
@@ -240,11 +220,6 @@ Ship.prototype={
 		this.particles.push(particle);
 	}
 };
-
-
-
-//*/
-		}
 	</script>
 </head>
 <body>

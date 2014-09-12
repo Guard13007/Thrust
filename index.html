@@ -19,27 +19,11 @@
 			maxExhaustVelocity:20
 		};
 		var canvas,context,ship;
-		var io={ //draw
-			keysHeld:[],
-			keyDown:function(e){
-				var code=e.keyCode? e.keyCode : e.charCode;
-				io.keysHeld[code]=true;
-				//console.log(code);
-			},
-			keyUp:function(e){
-				var code=e.keyCode? e.keyCode : e.charCode;
-				io.keysHeld[code]=false;
-			}
-		};
 		var speeds={
 			particlesMinVelocity:16,//9,
 			particlesMaxVelocity:20//12
 		};
 
-		function forEach(arr,func){
-			for (var i=0;i<arr.length;i++)
-				func(arr[i]);
-		}
 		function clear(){
 			context.clearRect(0,0,window.innerWidth,window.innerHeight);
 		}
@@ -97,8 +81,8 @@
 				){
 					//collision!
 					//ship.particles.splice(ship.particles.indexOf(b),1);
-					/**/b.v.x+=ship.v.x;
-					b.v.y+=ship.v.y;//*/
+					b.v.x+=ship.v.x;
+					b.v.y+=ship.v.y;
 					/*if(b.v.x>0 && ship.v.x>0 || b.v.x<0 && ship.v.x<0){
 						b.v.x+=ship.v.x;
 					}else{
@@ -178,9 +162,9 @@
 		}
 
 
-		window.onkeydown=io.keyDown;
-		window.onkeyup=io.keyUp;
-		window.onload=function(){
+		io.addEvent('keydown',io.keyDown);
+		io.addEvent('keyup',io.keyUp);
+		io.addEvent('load',function(){
 			canvas=document.getElementsByTagName('canvas')[0];
 			canvas.width=window.innerWidth;
 			canvas.height=window.innerHeight;
@@ -188,11 +172,11 @@
 
 			ship=new Ship(window.innerWidth/2,window.innerHeight/2);
 			loop();
-		};
-		window.resize=function(){
+		});
+		io.addEvent('resize',function(){
 			canvas.width=window.innerWidth;
 			canvas.height=window.innerHeight;
-		};
+		});
 	</script>
 </head>
 <body>
