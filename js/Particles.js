@@ -8,19 +8,19 @@
  * @param {object} [size={width:1,height:1}] - Size of Particle.
  * @param {object} [speed={x:0,y:0}] - Velocity of Particle.
  * @param {object|Array} [parent] - A parent object can be specified, helps with the remove() method.
+ *
+ * @property {number} [x=0] - X position.
+ * @property {number} [y=0] - Y position.
+ * @property {Array} [color=Particle.effects.standard {r,g,b}] - Color as [R,G,B]
+ * @property {function} [effect=Particle.effects.standard.method] - Called to modify Particle.
+ * @property {number} [width=1] - Width.
+ * @property {number} [height=1] - Height.
+ * @property {vector} [v=new vector(0,0)] - Velocity.
+ * @property {object} [parent=undefined] - Parent object, used in Particle.remove()
  */
 var Particle=function(location,effect,size,speed,parent){
-	//location = {x,y}
 	if (location) {
-		/**
-		 * @type number
-		 * @default 0
-		 */
 		this.x=location.x;
-		/**
-		 * @type number
-		 * @default 0
-		 */
 		this.y=location.y;
 	} else {
 		this.x=0;
@@ -30,43 +30,22 @@ var Particle=function(location,effect,size,speed,parent){
 	if (!effect) { // If no effect, use standard.
 		var effect=Particle.effects.standard;
 	}
-	/**
-	 * @type Array
-	 * @default Particle.effects.standard {r,g,b}
-	 */
 	this.color=[effect.r,effect.g,effect.b];
-	/**
-	 * @type function
-	 * @default Particle.effects.standard.method
-	 */
 	this.effect=effect.method;
 
 	if (size) {
-		/**
-		 * @type number
-		 * @default 1
-		 */
 		this.width=size.width;
-		/**
-		 * @type number
-		 * @default 1
-		 */
 		this.height=size.height;
 	} else {
 		this.width=1;
 		this.height=1;
 	}
 
-	/** 
-	 * @type vector
-	 * @default (0,0)
+	/**
+	 * @todo Add a @see or something here to link to Jenjens.physics.vector()
 	 */
 	this.v=new vector(speed.x,speed.y);
 
-	/**
-	 * @type object
-	 * @default undefined
-	 */
 	if (parent) this.parent=parent;
 };
 Particle.effects={
