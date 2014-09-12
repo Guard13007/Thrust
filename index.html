@@ -143,19 +143,7 @@
 			ship.draw(context);
 			//decrease visibility and remove black particles
 			forEach(ship.particles,function(b){
-				//if(b.color>50)
-				//b.color-=1;
-				if(b.color[1]<b.color[0]){
-					b.color[1]+=12;
-				}else
-				if(b.color[2]<b.color[0]) {
-					b.color[2]+=24;
-				} else {
-					b.color[0]-=12;
-					b.color[1]-=12;
-					b.color[2]-=12;
-				}
-				if(b.color[0]<1)ship.particles.splice(ship.particles.indexOf(b),1);
+				b.effect();
 			});
 
 			setTimeout(loop,31);

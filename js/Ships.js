@@ -16,16 +16,7 @@ Ship.prototype={
 		//location,effect,size,speed,parent
 		var particle = new Particle(
 			{x:this.x,y:this.y},
-			{r:240,g:0,b:0,method:function(){
-				if (this.color[1] < this.color[0]) {
-					this.color[1]+=12;
-				} else if (this.color[2] < this.color[0]) {
-					this.color[0]-=12;
-					this.color[1]-=12;
-					this.color[2]-=12;
-				}
-				if (this.color[0] < 1) this.remove();
-			}},
+			Particle.effects.cyanFlame,
 			{width:random.number(1,10),height:random.number(1,10)},
 			{x:this.v.x,y:this.v.y},
 			this.particles

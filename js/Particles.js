@@ -2,7 +2,7 @@
  * @copyright 2014 Paul Liverman III
  */
 /**
- * @constructor
+ * @constructor Creates a rectangular object to be used with other Particles for basic particle effects.
  * @param {object} [location={x:0,y:0}] - Center of Particle.
  * @param {object} [effect={r:255,g:255,b:255,method:function()}] - Define starting color and method to execute on each call to Particle.effect()
  * @param {object} [size={width:1,height:1}] - Size of Particle.
@@ -42,12 +42,21 @@ var Particle=function(location,effect,size,speed,parent){
 	}
 
 	/**
+	 * @see http://guard13007.github.io/Jenjens/docs
+	 * @todo Update link above to proper link once Jenjens.physics.vector() is documented.
+	 * @todo Figure out how to have these notes/info on v without calling it a member? Or should everything be marked as a member??
 	 * @todo Add a @see or something here to link to Jenjens.physics.vector()
 	 */
 	this.v=new vector(speed.x,speed.y);
 
 	if (parent) this.parent=parent;
 };
+/**
+ * @description Defined Particle effects available.
+ * @property {object} standard - White slowly fading to black.
+ * @property {object} redFlame - Red fading through orange to yellow to white to black.
+ * @property {object} cyanFlame - Cyan color fading to white through a slight purple to black.
+ */
 Particle.effects={
 	standard:{
 		r:255,g:255,b:255,
@@ -55,6 +64,33 @@ Particle.effects={
 			this.color[0]-=1;
 			this.color[1]-=1;
 			this.color[2]-=1;
+			if (this.color[0] < 1) this.remove();
+		}
+	},
+	redFlame:{
+		r:240,g:0,b:0,
+		method:function(){
+			if (this.color[1] < this.color[0]) {
+				this.color[1]+=12;
+			} else if (this.color[2] < this.color[0]) {
+				this.color[0]-=12;
+				this.color[1]-=12;
+				this.color[2]-=12;
+			}
+			if (this.color[0] < 1) this.remove();
+		}
+	},
+	cyanFlame:{
+		r:0,g:200,b:250,
+		method:function(){
+			//this.color
+			if (this.color[0] < this.color[2]) {
+				this.color[0]+=25;
+			} else {
+				this.color[0]-=12;
+				this.color[1]-=9;
+				this.color[2]-=12;
+			}
 			if (this.color[0] < 1) this.remove();
 		}
 	}
@@ -73,11 +109,17 @@ Particle.prototype={
 	},
 	/**
 	 * @description Draws the Particle according to its color, x/y, and width/height.
+	 * @param {object} context - Which canvas context to draw to.
 	 * @todo Figure out why the draw function can't be a method (throws error with JSDoc).
 	 * @todo Figure out why the fuck nothing in JSDoc works like I'd expect.
 	 */
 	draw:function(context) {
 		context.fillStyle="rgb("+this.color[0]+","+this.color[1]+","+this.color[2]+")";
-		context.fillRect(this.x-this.width/2,this.y-this.height/2,this.width,this.height);
+		//context.fillRect(this.x-this.width/2,this.y-this.height/2,this.width,this.height);
+		context.translate(this.x,this.y);
+		context.rotate(0);
+		context.fillRect(-this.width/2,-this.height/2,this.width,this.height);
+		context.rotate(0);
+		context.translate(-this.x,-this.y);
 	}
 };
