@@ -11,12 +11,12 @@
  *
  * @property {number} [x=0] - X position.
  * @property {number} [y=0] - Y position.
- * @property {Array} [color=Particle.effects.standard {r,g,b}] - Color as [R,G,B]
+ * @property {Array} [color=Particle.effects.standard.{r,g,b}] - Color as [R,G,B]
  * @property {function} [effect=Particle.effects.standard.method] - Called to modify Particle.
  * @property {number} [width=1] - Width.
  * @property {number} [height=1] - Height.
  * @property {vector} [v=new vector(0,0)] - Velocity.
- * @property {object} [parent=undefined] - Parent object, used in Particle.remove()
+ * @property {object} [parent] - Parent object, used in Particle.remove()
  */
 var Particle=function(location,effect,size,speed,parent){
 	if (location) {
@@ -60,6 +60,9 @@ Particle.effects={
 	}
 };
 Particle.prototype={
+	/**
+	 * @description If parent is an Array, splices itself out of parent. Else deletes self.
+	 */
 	remove:function(){
 		if (this.parent) {
 			if (this.parent.splice) {
@@ -68,6 +71,11 @@ Particle.prototype={
 			delete this;
 		}
 	},
+	/**
+	 * @description Draws the Particle according to its color, x/y, and width/height.
+	 * @todo Figure out why the draw function can't be a method (throws error with JSDoc).
+	 * @todo Figure out why the fuck nothing in JSDoc works like I'd expect.
+	 */
 	draw:function(context) {
 		context.fillStyle="rgb("+this.color[0]+","+this.color[1]+","+this.color[2]+")";
 		context.fillRect(this.x-this.width/2,this.y-this.height/2,this.width,this.height);
