@@ -1,4 +1,8 @@
-var GUI=null;
+var GUI={
+	main:null,
+	friction:null,
+	thruster:null
+};
 var Render={
 	canvas:null,
 	context:null,
@@ -6,16 +10,22 @@ var Render={
 };
 var Game={
 	gravitationalAcceleration:0.5,
-	exhaustRandomness:1.2,
+
+	exhaustSpread:1.2,
+	exhaustRandomness:0.3,
 	minExhaustVelocity:16,
 	maxExhaustVelocity:20,
-	shipBorderRebound:0.5,
+	thrusterAcceleration:1,
+
+	shipBorderRebound:0.35,
 	shipBorderFriction:0.8,
-	shipDrag:0.95,
-	artificialDrag:0.9,
-	artificialRandomness:0.3,
+	shipDrag:0.99,
+
+	particleDrag:0.9,
+
 	ships:[],
 	playerID:0,
+
 	loop:function(){
 		forEach(Game.ships,function(b){
 			//apply Ship velocity
@@ -48,26 +58,22 @@ var Game={
 				if (a.y > window.innerHeight-a.height/2) {
 					a.y = window.innerHeight-a.height/2;
 					a.v.y=-a.v.y;
-					//a.v.x*=Game.artificialDrag;
 				} else if (a.y < a.height/2) {
 					a.y = a.height/2;
 					a.v.y=-a.v.y;
-					//a.v.x*=Game.artificialDrag;
 				}
 				if (a.x > window.innerWidth-a.width/2) {
 					a.x = window.innerWidth-a.width/2;
 					a.v.x=-a.v.x;
-					//a.v.y*=Game.artificialDrag;
 				} else if (a.x < a.width/2) {
 					a.x = a.width/2;
 					a.v.x=-a.v.x;
-					//a.v.y*=Game.artificialDrag;
 				}
 				//Particle to Ship collision
-				if (a.x-b.width/2  < b.x+b.width/2  &&
-					a.x+b.width/2  > b.x-b.width/2  &&
-					a.y-b.height/2 < b.y+b.height/2 &&
-					a.y+b.height/2 > b.y-b.height/2
+				if (a.x-a.width/2  < b.x+b.width/2  &&
+					a.x+a.width/2  > b.x-b.width/2  &&
+					a.y-a.height/2 < b.y+b.height/2 &&
+					a.y+a.height/2 > b.y-b.height/2
 				) {
 					a.v.x+=b.v.x;
 					a.v.y+=b.v.y;
@@ -83,10 +89,10 @@ var Game={
 					}*/
 				}
 				//update Particle velocity
-				a.v.x*=Game.artificialDrag;
-				a.v.y*=Game.artificialDrag;
-				a.v.x+=random.number(-Game.artificialRandomness*a.v.x,Game.artificialRandomness*a.v.x);
-				a.v.y+=random.number(-Game.artificialRandomness*a.v.y,Game.artificialRandomness*a.v.y);
+				a.v.x*=Game.particleDrag;
+				a.v.y*=Game.particleDrag;
+				a.v.x+=random.number(-Game.exhaustRandomness*a.v.x,Game.exhaustRandomness*a.v.x);
+				a.v.y+=random.number(-Game.exhaustRandomness*a.v.y,Game.exhaustRandomness*a.v.y);
 			});
 			//update Ship velocity (gravity / drag)
 			b.v.y+=Game.gravitationalAcceleration;
@@ -95,19 +101,19 @@ var Game={
 		});
 		//apply Ship thrust
 		if (io.keysHeld[Jenjens.keys.w] || io.keysHeld[Jenjens.keys.up]) {
-			Game.ships[Game.playerID].v.y-=1;
+			Game.ships[Game.playerID].v.y-=Game.thrusterAcceleration;
 			Game.ships[Game.playerID].exhaust('down');
 		}
 		if (io.keysHeld[Jenjens.keys.a] || io.keysHeld[Jenjens.keys.left]) {
-			Game.ships[Game.playerID].v.x-=1;
+			Game.ships[Game.playerID].v.x-=Game.thrusterAcceleration;
 			Game.ships[Game.playerID].exhaust('right');
 		}
 		if (io.keysHeld[Jenjens.keys.s] || io.keysHeld[Jenjens.keys.down]) {
-			Game.ships[Game.playerID].v.y+=1;
+			Game.ships[Game.playerID].v.y+=Game.thrusterAcceleration;
 			Game.ships[Game.playerID].exhaust('up');
 		}
 		if (io.keysHeld[Jenjens.keys.d] || io.keysHeld[Jenjens.keys.right]) {
-			Game.ships[Game.playerID].v.x+=1;
+			Game.ships[Game.playerID].v.x+=Game.thrusterAcceleration;
 			Game.ships[Game.playerID].exhaust('left');
 		}
 		//clear canvas
@@ -138,18 +144,21 @@ io.addEvent('load',function(){
 	Render.context=Render.canvas.getContext('2d');
 
 	//set up GUI
-	GUI=new dat.GUI();
-	GUI.add(Render,'iterationDelay',{Max:1,'60':17,'30':33,'10':100,Min:2000}).name("FPS");
+	GUI.main=new dat.GUI();
+	GUI.main.add(Render,'iterationDelay',{Max:1,'60':17,'30':33,'10':100,Min:2000}).name("FPS");
 
-	GUI.add(Game,'gravitationalAcceleration',0,2).step(0.1).name("g");
-	GUI.add(Game,'exhaustRandomness',0,10).step(0.2);
-	GUI.add(Game,'minExhaustVelocity',10,20).step(2);
-	GUI.add(Game,'maxExhaustVelocity',10,30).step(2);
-	GUI.add(Game,'shipBorderRebound',0.05,1).step(0.05);
-	GUI.add(Game,'shipBorderFriction',0.05,1).step(0.05);
-	GUI.add(Game,'shipDrag',0.05,1).step(0.05);
-	GUI.add(Game,'artificialDrag',0.05,1).step(0.05);
-	GUI.add(Game,'artificialRandomness',0.05,1).step(0.05);
+	GUI.main.add(Game,'gravitationalAcceleration',0,2).step(0.1).name("g");
+	GUI.main.add(Game,'minExhaustVelocity',10,20).step(2);
+	GUI.main.add(Game,'maxExhaustVelocity',10,30).step(2);
+	GUI.friction=GUI.main.addFolder("Friction");
+	GUI.friction.add(Game,'shipBorderRebound',0.05,1).step(0.05);
+	GUI.friction.add(Game,'shipBorderFriction',0.05,1).step(0.05);
+	GUI.friction.add(Game,'shipDrag',0.9,1).step(0.01);
+	GUI.friction.add(Game,'particleDrag',0.5,1).step(0.05);
+	GUI.thruster=GUI.main.addFolder("Thruster");
+	GUI.thruster.add(Game,'thrusterAcceleration',0.1,5).step(0.1);
+	GUI.thruster.add(Game,'exhaustSpread',0,10).step(0.2);
+	GUI.thruster.add(Game,'exhaustRandomness',0.05,1).step(0.05);
 
 	Game.ships.push(new Ship(window.innerWidth/2,window.innerHeight/2));
 	Game.loop();
