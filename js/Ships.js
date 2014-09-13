@@ -61,22 +61,22 @@ Ship.prototype={
 
 			if (direction=='up') {
 				particle.x+=random.number(-this.width/2,this.width/2);
-				particle.y-=this.height/2;
+				particle.y-=this.height/2+particle.height*random.number(0,2);
 				particle.v.x+=random.number(-Game.exhaustSpread,Game.exhaustSpread);
 				particle.v.y-=random.number(Game.minExhaustVelocity,Game.maxExhaustVelocity);
 			} else if (direction=='left') {
-				particle.x-=this.width/2;
+				particle.x-=this.width/2+particle.width*random.number(0,2);
 				particle.y+=random.number(-this.height/2,this.height/2);
 				particle.v.x-=random.number(Game.minExhaustVelocity,Game.maxExhaustVelocity);
 				particle.v.y+=random.number(-Game.exhaustSpread,Game.exhaustSpread);
 			} else if (direction=='right') {
-				particle.x+=this.width/2;
+				particle.x+=this.width/2+particle.width*random.number(0,2);
 				particle.y+=random.number(-this.height/2,this.height/2);
 				particle.v.x+=random.number(Game.minExhaustVelocity,Game.maxExhaustVelocity);
 				particle.v.y+=random.number(-Game.exhaustSpread,Game.exhaustSpread);
 			} else if (direction=='down') {
 				particle.x+=random.number(-this.width/2,this.width/2);
-				particle.y+=this.height/2;
+				particle.y+=this.height/2+particle.height*random.number(0,2);
 				particle.v.x+=random.number(-Game.exhaustSpread,Game.exhaustSpread);
 				particle.v.y+=random.number(Game.minExhaustVelocity,Game.maxExhaustVelocity);
 			}

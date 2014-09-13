@@ -155,12 +155,12 @@ io.addEvent('load',function(){
 	GUI.friction.add(Game,'shipDrag',0.9,1).step(0.01);
 	GUI.friction.add(Game,'particleDrag',0.5,1).step(0.05);
 	GUI.thruster=GUI.main.addFolder("Thruster");
-	GUI.thruster.add(Game,'thrusterParticles',1,10).step(1);
-	GUI.thruster.add(Game,'thrusterAcceleration',0.1,5).step(0.1);
-	GUI.thruster.add(Game,'exhaustSpread',0,10).step(0.2);
-	GUI.thruster.add(Game,'exhaustRandomness',0.05,1).step(0.05);
+	GUI.thruster.add(Game,'thrusterParticles',1,20).step(1);
+	GUI.thruster.add(Game,'thrusterAcceleration',0.05,4).step(0.05);
+	GUI.thruster.add(Game,'exhaustSpread',0,14).step(0.2);
+	GUI.thruster.add(Game,'exhaustRandomness',0.05,0.5).step(0.05);
 	GUI.thruster.add(Game,'minExhaustVelocity',10,20).step(2);
-	GUI.thruster.add(Game,'maxExhaustVelocity',10,30).step(2);
+	GUI.thruster.add(Game,'maxExhaustVelocity',12,28).step(2);
 
 	//create Ship
 	Game.ships.push(new Ship(window.innerWidth/2,window.innerHeight/2));
