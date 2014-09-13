@@ -16,6 +16,7 @@ var Game={
 	minExhaustVelocity:16,
 	maxExhaustVelocity:20,
 	thrusterAcceleration:1,
+	thrusterParticles:2,
 
 	shipBorderRebound:0.35,
 	shipBorderFriction:0.8,
@@ -102,19 +103,19 @@ var Game={
 		//apply Ship thrust
 		if (io.keysHeld[Jenjens.keys.w] || io.keysHeld[Jenjens.keys.up]) {
 			Game.ships[Game.playerID].v.y-=Game.thrusterAcceleration;
-			Game.ships[Game.playerID].exhaust('down');
+			Game.ships[Game.playerID].exhaust('down',Game.thrusterParticles);
 		}
 		if (io.keysHeld[Jenjens.keys.a] || io.keysHeld[Jenjens.keys.left]) {
 			Game.ships[Game.playerID].v.x-=Game.thrusterAcceleration;
-			Game.ships[Game.playerID].exhaust('right');
+			Game.ships[Game.playerID].exhaust('right',Game.thrusterParticles);
 		}
 		if (io.keysHeld[Jenjens.keys.s] || io.keysHeld[Jenjens.keys.down]) {
 			Game.ships[Game.playerID].v.y+=Game.thrusterAcceleration;
-			Game.ships[Game.playerID].exhaust('up');
+			Game.ships[Game.playerID].exhaust('up',Game.thrusterParticles);
 		}
 		if (io.keysHeld[Jenjens.keys.d] || io.keysHeld[Jenjens.keys.right]) {
 			Game.ships[Game.playerID].v.x+=Game.thrusterAcceleration;
-			Game.ships[Game.playerID].exhaust('left');
+			Game.ships[Game.playerID].exhaust('left',Game.thrusterParticles);
 		}
 		//clear canvas
 		Jenjens.render.clear(Render.context);
@@ -148,19 +149,30 @@ io.addEvent('load',function(){
 	GUI.main.add(Render,'iterationDelay',{Max:1,'60':17,'30':33,'10':100,Min:2000}).name("FPS");
 
 	GUI.main.add(Game,'gravitationalAcceleration',0,2).step(0.1).name("g");
-	GUI.main.add(Game,'minExhaustVelocity',10,20).step(2);
-	GUI.main.add(Game,'maxExhaustVelocity',10,30).step(2);
 	GUI.friction=GUI.main.addFolder("Friction");
 	GUI.friction.add(Game,'shipBorderRebound',0.05,1).step(0.05);
 	GUI.friction.add(Game,'shipBorderFriction',0.05,1).step(0.05);
 	GUI.friction.add(Game,'shipDrag',0.9,1).step(0.01);
 	GUI.friction.add(Game,'particleDrag',0.5,1).step(0.05);
 	GUI.thruster=GUI.main.addFolder("Thruster");
+	GUI.thruster.add(Game,'thrusterParticles',1,10).step(1);
 	GUI.thruster.add(Game,'thrusterAcceleration',0.1,5).step(0.1);
 	GUI.thruster.add(Game,'exhaustSpread',0,10).step(0.2);
 	GUI.thruster.add(Game,'exhaustRandomness',0.05,1).step(0.05);
+	GUI.thruster.add(Game,'minExhaustVelocity',10,20).step(2);
+	GUI.thruster.add(Game,'maxExhaustVelocity',10,30).step(2);
 
+	//create Ship
 	Game.ships.push(new Ship(window.innerWidth/2,window.innerHeight/2));
+
+	//add Ship data to GUI
+	/*GUI.thruster.add(Game.ships[Game.playerID],'particleType',{
+		standard:Particle.effects.standard,
+		redFlame:Particle.effects.redFlame,
+		cyanFlame:Particle.effects.cyanFlame
+	});*/
+
+	//start main loop
 	Game.loop();
 });
 io.addEvent('resize',function(){

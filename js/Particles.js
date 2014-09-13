@@ -44,8 +44,6 @@ var Particle=function(location,effect,size,speed,parent){
 
 	/**
 	 * @see http://guard13007.github.io/Jenjens/docs
-	 * @memberof Particle
-	 * @inner
 	 * @todo Update link above to proper link once Jenjens.physics.vector() is documented.
 	 * @todo Figure out why this part of the documentation seems to be ignored.
 	 */
