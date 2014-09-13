@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: Particle</title>
+    <title>JSDoc: Class: Ship</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: Particle</h1>
+    <h1 class="page-title">Class: Ship</h1>
 
     
 
@@ -27,7 +27,7 @@
 
 <header>
     <h2>
-    Particle
+    Ship
     </h2>
     
 </header>
@@ -39,7 +39,7 @@
     
         
 <dt>
-    <h4 class="name" id="Particle"><span class="type-signature"></span>new Particle<span class="signature">(location<span class="signature-attributes">opt</span>, effect<span class="signature-attributes">opt</span>, size<span class="signature-attributes">opt</span>, speed<span class="signature-attributes">opt</span>, parent<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="Ship"><span class="type-signature"></span>new Ship<span class="signature">(x<span class="signature-attributes">opt</span>, y<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
     
 </dt>
@@ -47,7 +47,7 @@
 
     
     <div class="description">
-        Creates a rectangular object to be used with other Particles for basic particle effects.
+        Creates rectangular object that can fire out Particles and move about.
     </div>
     
 
@@ -85,13 +85,13 @@
 
         <tr>
             
-                <td class="name"><code>location</code></td>
+                <td class="name"><code>x</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">number</span>
 
 
             
@@ -112,25 +112,25 @@
             
                 <td class="default">
                 
-                    {x:0,y:0}
+                    0
                 
                 </td>
             
 
-            <td class="description last">Center of Particle.</td>
+            <td class="description last">X position.</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>effect</code></td>
+                <td class="name"><code>y</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">number</span>
 
 
             
@@ -151,130 +151,12 @@
             
                 <td class="default">
                 
-                    {r:255,g:255,b:255,method:function()}
+                    0
                 
                 </td>
             
 
-            <td class="description last">Define starting color and method to execute on each call to Particle.effect()</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>size</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">object</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    {width:1,height:1}
-                
-                </td>
-            
-
-            <td class="description last">Size of Particle.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>speed</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">object</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    {x:0,y:0}
-                
-                </td>
-            
-
-            <td class="description last">Velocity of Particle.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>parent</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">object</span>
-|
-
-<span class="param-type">Array</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">A parent object can be specified, helps with the remove() method.</td>
+            <td class="description last">Y position.</td>
         </tr>
 
     
@@ -312,6 +194,43 @@
     </thead>
 
     <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>color</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    "blue"
+                
+                </td>
+            
+
+            <td class="description last">Color of object.</td>
+        </tr>
+
     
 
         <tr>
@@ -390,80 +309,6 @@
 
         <tr>
             
-                <td class="name"><code>color</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Array</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    Particle.effects.standard.{r,g,b}
-                
-                </td>
-            
-
-            <td class="description last">Color as [R,G,B]</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>effect</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">function</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    Particle.effects.standard.method
-                
-                </td>
-            
-
-            <td class="description last">Called to modify Particle.</td>
-        </tr>
-
-    
-
-        <tr>
-            
                 <td class="name"><code>width</code></td>
             
 
@@ -489,7 +334,7 @@
             
                 <td class="default">
                 
-                    1
+                    40
                 
                 </td>
             
@@ -526,7 +371,7 @@
             
                 <td class="default">
                 
-                    1
+                    40
                 
                 </td>
             
@@ -563,7 +408,7 @@
             
                 <td class="default">
                 
-                    new vector(0,0)
+                    new vector()
                 
                 </td>
             
@@ -575,13 +420,13 @@
 
         <tr>
             
-                <td class="name"><code>parent</code></td>
+                <td class="name"><code>particles</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">Array</span>
 
 
             
@@ -600,10 +445,12 @@
             
                 <td class="default">
                 
+                    []
+                
                 </td>
             
 
-            <td class="description last">Parent object, used in Particle.remove()</td>
+            <td class="description last">Particles created by this Ship.</td>
         </tr>
 
     
@@ -631,12 +478,19 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Particles.js.html">Particles.js</a>, <a href="Particles.js.html#line22">line 22</a>
+        <a href="Ships.js.html">Ships.js</a>, <a href="Ships.js.html#line19">line 19</a>
     </li></ul></dd>
     
 
     
 
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="Particle.html">Particle</a></li>
+        </ul>
+    </dd>
     
 
     
@@ -674,163 +528,6 @@
     
 
     
-        <h3 class="subsection-title">Members</h3>
-
-        <dl>
-            
-<dt>
-    <h4 class="name" id="effects"><span class="type-signature">(static) </span>effects<span class="type-signature"></span></h4>
-
-    
-</dt>
-<dd>
-    
-    <div class="description">
-        Defined Particle effects available.
-    </div>
-    
-
-    
-
-    
-<dl class="details">
-    
-
-        <h5 class="subsection-title">Properties:</h5>
-
-        <dl>
-
-<table class="props">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>standard</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">White slowly fading to black.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>redFlame</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Red fading through orange to yellow to white to black.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>cyanFlame</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Cyan color fading to white through a slight purple to black.</td>
-        </tr>
-
-    
-    </tbody>
-</table></dl>
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Particles.js.html">Particles.js</a>, <a href="Particles.js.html#line62">line 62</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-    
-
-    
-</dd>
-
-        </dl>
-    
 
     
         <h3 class="subsection-title">Methods</h3>
@@ -846,7 +543,7 @@
 
     
     <div class="description">
-        Draws the Particle according to its color, x/y, and width/height.
+        Draws the Ship according to its color, x/y, and width/height.
     </div>
     
 
@@ -927,7 +624,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Particles.js.html">Particles.js</a>, <a href="Particles.js.html#line116">line 116</a>
+        <a href="Ships.js.html">Ships.js</a>, <a href="Ships.js.html#line33">line 33</a>
     </li></ul></dd>
     
 
@@ -957,7 +654,7 @@
         
             
 <dt>
-    <h4 class="name" id="remove"><span class="type-signature"></span>remove<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="exhaust"><span class="type-signature"></span>exhaust<span class="signature">(direction, amount<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
     
 </dt>
@@ -965,7 +662,7 @@
 
     
     <div class="description">
-        If parent is an Array, splices itself out of parent. Then deletes itself.
+        Creates a new Particle based on direction Ship is thrusting.
     </div>
     
 
@@ -973,6 +670,109 @@
 
     
 
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>direction</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Which direction to generate in.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>amount</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    1
+                
+                </td>
+            
+
+            <td class="description last">How many to generate.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
     
 
     
@@ -998,12 +798,19 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Particles.js.html">Particles.js</a>, <a href="Particles.js.html#line104">line 104</a>
+        <a href="Ships.js.html">Ships.js</a>, <a href="Ships.js.html#line43">line 43</a>
     </li></ul></dd>
     
 
     
 
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="Particle.html">Particle</a></li>
+        </ul>
+    </dd>
     
 
     
