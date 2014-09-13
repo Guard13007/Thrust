@@ -4,19 +4,21 @@
 /**
  * @constructor
  * @description Creates rectangular object that can fire out Particles and move about.
- * @see Particle
+ * @see {@linkcode Particle}
  * @param {number} [x=0] - X position.
  * @param {number} [y=0] - Y position.
  * @param {object} [particleType=Particle.effects.redFlame] - Type of Particle effect to use.
  *
- * @property {string} [color="blue"] - Color of object.
- * @property {number} [x=0] - X position.
- * @property {number} [y=0] - Y position.
- * @property {number} [width=40] - Width.
- * @property {number} [height=40] - Height.
- * @property {vector} [v=new vector()] - Velocity.
- * @property {Array} [particles=[]] - Particles created by this Ship.
- * @property {object} [particleType=Particle.effects.redFlame] - Type of Particle effect to use.
+ * @property {string} color - Color of object.
+ * @property {number} x - X position.
+ * @property {number} y - Y position.
+ * @property {number} width - Width.
+ * @property {number} height - Height.
+ * @property {vector} v - Velocity.
+ * @see http://guard13007.github.io/Jenjens/docs
+ * @todo Update the link when the physics.vector() object is documented.
+ * @property {Array} particles - Particles created by this Ship.
+ * @property {object} particleType - Type of Particle effect to use.
  */
 var Ship=function(x,y,particleType){
 	this.color="blue";
@@ -45,7 +47,7 @@ Ship.prototype={
 	},
 	/**
 	 * @description Creates a new Particle based on direction Ship is thrusting.
-	 * @see Particle
+	 * @see {@linkcode Particle}
 	 * @param {string} direction - Which direction to generate in.
 	 * @param {number} [amount=1] - How many to generate.
 	 */

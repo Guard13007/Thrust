@@ -10,13 +10,15 @@
  * @param {object} [speed={x:0,y:0}] - Velocity of Particle.
  * @param {object|Array} [parent] - A parent object can be specified, helps with the remove() method.
  *
- * @property {number} [x=0] - X position.
- * @property {number} [y=0] - Y position.
- * @property {Array} [color=Particle.effects.standard.{r,g,b}] - Color as [R,G,B]
- * @property {function} [effect=Particle.effects.standard.method] - Called to modify Particle.
- * @property {number} [width=1] - Width.
- * @property {number} [height=1] - Height.
- * @property {vector} [v=new vector(0,0)] - Velocity.
+ * @property {number} x - X position.
+ * @property {number} y - Y position.
+ * @property {Array} color - Color as [R,G,B]
+ * @property {function} effect - Called to modify Particle.
+ * @property {number} width - Width.
+ * @property {number} height - Height.
+ * @property {vector} v - Velocity.
+ * @see http://guard13007.github.io/Jenjens/docs
+ * @todo Update the linkie.
  * @property {object} [parent] - Parent object, used in Particle.remove()
  */
 var Particle=function(location,effect,size,speed,parent){
