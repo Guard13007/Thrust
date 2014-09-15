@@ -40,6 +40,7 @@ var Render={
  * @property {number} shipDrag - Multiplied to Ships' velocity each iteration to simulate the drag of an atmosphere.
 
  * @property {number} particleDrag - Artificial higher drag applied to Particles.
+ * @property {string} particleType - This property is used to select a particle effect type with dat.GUI. This setting itself does not change the effect, but there is an onChange() method on the GUI to change it when this value is changed in the GUI.
 
  * @property {Array} ships - Where all Ships in the simulation are stored.
  * @property {number} playerID - The index of which Ship in Game.ships is being controlled.
@@ -59,6 +60,7 @@ var Game={
 	shipDrag:0.99,
 
 	particleDrag:0.9,
+	particleType:'redFlame',
 
 	ships:[],
 	playerID:0,
@@ -206,11 +208,15 @@ io.addEvent('load',function(){
 	Game.ships.push(new Ship(window.innerWidth/2,window.innerHeight/2));
 
 	//add Ship data to GUI
-	/*GUI.thruster.add(Game.ships[Game.playerID],'particleType',{
-		standard:Particle.effects.standard,
-		redFlame:Particle.effects.redFlame,
-		cyanFlame:Particle.effects.cyanFlame
-	});*/
+	GUI.thruster.add(Game,'particleType',['standard','redFlame','cyanFlame']).onChange(function(){
+		if (Game.particleType=='standard') {
+			Game.ships[Game.playerID].particleType=Particle.effects.standard;
+		} else if (Game.particleType=='redFlame') {
+			Game.ships[Game.playerID].particleType=Particle.effects.redFlame;
+		} else if (Game.particleType=='cyanFlame') {
+			Game.ships[Game.playerID].particleType=Particle.effects.cyanFlame;
+		}
+	});
 
 	//start main loop
 	Game.loop();
