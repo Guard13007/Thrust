@@ -41,6 +41,7 @@ var Render={
 
  * @property {number} particleDrag - Artificial higher drag applied to Particles.
  * @property {string} particleType - This property is used to select a particle effect type with dat.GUI. This setting itself does not change the effect, but there is an onChange() method on the GUI to change it when this value is changed in the GUI.
+ * @property {number} nullifyThreshold - The threshold at which velocity will be nullified instead of reflected buring border collisions.
 
  * @property {Array} ships - Where all Ships in the simulation are stored.
  * @property {number} playerID - The index of which Ship in Game.ships is being controlled.
@@ -61,6 +62,7 @@ var Game={
 
 	particleDrag:0.9,
 	particleType:'redFlame',
+	nullifyThreshold:1,
 
 	ships:[],
 	playerID:0,
@@ -78,19 +80,23 @@ var Game={
 				b.y = window.innerHeight-b.height/2;
 				b.v.y=-b.v.y*Game.shipBorderRebound;
 				b.v.x*=Game.shipBorderFriction;
+				Game.nullifyLowVelocity(b);
 			} else if (b.y < b.height/2) {
 				b.y = b.height/2;
 				b.v.y=-b.v.y*Game.shipBorderRebound;
 				b.v.x*=Game.shipBorderFriction;
+				Game.nullifyLowVelocity(b);
 			}
 			if (b.x > window.innerWidth-b.width/2) {
 				b.x = window.innerWidth-b.width/2;
 				b.v.x=-b.v.x*Game.shipBorderRebound;
 				b.v.y*=Game.shipBorderFriction;
+				Game.nullifyLowVelocity(b);
 			} else if (b.x < b.width/2) {
 				b.x = b.width/2;
 				b.v.x=-b.v.x*Game.shipBorderRebound;
 				b.v.y*=Game.shipBorderFriction;
+				Game.nullifyLowVelocity(b);
 			}
 			forEach(b.particles,function(a){
 				//apply Particle velocity
@@ -173,6 +179,14 @@ var Game={
 		});
 
 		setTimeout(Game.loop,Render.iterationDelay);
+	},
+	/**
+	 * @description X/Y velocities nullified if less than Game.nullifyThreshold.
+	 * @param {object} ship - A ship (or anything with a v.x and v.y property representing velocity).
+	 */
+	nullifyLowVelocity:function(b){
+		if (b.v.x < Game.nullifyThreshold) b.v.x=0;
+		if (b.v.y < Game.nullifyThreshold) b.v.y=0;
 	}
 };
 
@@ -196,6 +210,7 @@ io.addEvent('load',function(){
 	GUI.friction.add(Game,'shipBorderFriction',0.05,1).step(0.05);
 	GUI.friction.add(Game,'shipDrag',0.9,1).step(0.01);
 	GUI.friction.add(Game,'particleDrag',0.5,1).step(0.05);
+	GUI.friction.add(Game,'nullifyThreshold',0.1,1).step(0.1);
 	GUI.thruster=GUI.main.addFolder("Thruster");
 	GUI.thruster.add(Game,'thrusterParticles',1,20).step(1);
 	GUI.thruster.add(Game,'thrusterAcceleration',0.05,4).step(0.05);
