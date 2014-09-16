@@ -1,4 +1,7 @@
 /**
+ * @copyright 2014 Paul Liverman III
+ */
+/**
  * @namespace
  * @description Contains objects for a GUI to modify simulation on the fly.
  * @property {object} main - The main dat.GUI object. Contains folders for other values.
@@ -45,6 +48,9 @@ var Render={
 
  * @property {Array} ships - Where all Ships in the simulation are stored.
  * @property {number} playerID - The index of which Ship in Game.ships is being controlled.
+
+ * @property {function} loop - Main game loop.
+ * @property {function} nullifyLowVelocity - Nullifies low velocities on objects passed to it.
  */
 var Game={
 	gravitationalAcceleration:0.5,
