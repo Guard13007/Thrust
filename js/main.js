@@ -230,13 +230,15 @@ io.addEvent('load',function(){
 	Game.ships.push(new Ship(window.innerWidth/2,window.innerHeight/2));
 
 	//add Ship data to GUI
-	GUI.thruster.add(Game,'particleType',['standard','redFlame','cyanFlame']).onChange(function(){
+	GUI.thruster.add(Game,'particleType',['standard','redFlame','cyanFlame','rainbow']).onChange(function(){
 		if (Game.particleType=='standard') {
 			Game.ships[Game.playerID].particleType=Particle.effects.standard;
 		} else if (Game.particleType=='redFlame') {
 			Game.ships[Game.playerID].particleType=Particle.effects.redFlame;
 		} else if (Game.particleType=='cyanFlame') {
 			Game.ships[Game.playerID].particleType=Particle.effects.cyanFlame;
+		} else if (Game.particleType=='rainbow') {
+			Game.ships[Game.playerID].particleType=Particle.effects.rainbow;
 		}
 	});
 

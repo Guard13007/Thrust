@@ -20,6 +20,7 @@
  * @see http://guard13007.github.io/Jenjens/docs
  * @todo Update the linkie.
  * @property {object} [parent] - Parent object, used in Particle.remove()
+ * @property {function} onCreate - Called if it exists when it is created.
  */
 var Particle=function(location,effect,size,speed,parent){
 	if (location) {
@@ -30,9 +31,8 @@ var Particle=function(location,effect,size,speed,parent){
 		this.y=0;
 	}
 
-	if (!effect) { // If no effect, use standard.
+	if (!effect) // If no effect, use standard.
 		var effect=Particle.effects.standard;
-	}
 	this.color=[effect.r,effect.g,effect.b];
 	this.effect=effect.method;
 
@@ -52,12 +52,18 @@ var Particle=function(location,effect,size,speed,parent){
 	this.v=new vector(speed.x,speed.y);
 
 	if (parent) this.parent=parent;
+
+	if (effect.onCreate) {
+		this.onCreate=effect.onCreate;
+		this.onCreate();
+	}
 };
 /**
  * @description Defined Particle effects available.
  * @property {object} standard - White slowly fading to black.
  * @property {object} redFlame - Red fading through orange to yellow to white to black.
  * @property {object} cyanFlame - Cyan color fading to white through a slight purple to black.
+ * @property {object} rainbow - Random colors changing randomly until they break.
  */
 Particle.effects={
 	standard:{
@@ -94,6 +100,23 @@ Particle.effects={
 				this.color[2]-=12;
 			}
 			if (this.color[0] < 1) this.remove();
+		}
+	},
+	rainbow:{
+		r:0,g:0,b:0,
+		method:function(){
+			this.color[0]+=random.integer(-33,33);
+			this.color[1]+=random.integer(-33,33);
+			this.color[2]+=random.integer(-33,33);
+			if (this.color[0]>255 || this.color[0]<0 ||
+				this.color[1]>255 || this.color[1]<0 ||
+				this.color[2]>255 || this.color[2]<0)
+				this.remove();
+		},
+		onCreate:function(){
+			this.color[0]=random.integer(0,255);
+			this.color[1]=random.integer(0,255);
+			this.color[2]=random.integer(0,255);
 		}
 	}
 };
