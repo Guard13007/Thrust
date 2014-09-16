@@ -62,7 +62,7 @@ var Game={
 
 	particleDrag:0.9,
 	particleType:'redFlame',
-	nullifyThreshold:1,
+	nullifyThreshold:0.1,
 
 	ships:[],
 	playerID:0,
@@ -185,8 +185,8 @@ var Game={
 	 * @param {object} ship - A ship (or anything with a v.x and v.y property representing velocity).
 	 */
 	nullifyLowVelocity:function(b){
-		if (b.v.x < Game.nullifyThreshold) b.v.x=0;
-		if (b.v.y < Game.nullifyThreshold) b.v.y=0;
+		if (Math.abs(b.v.x) < Game.nullifyThreshold) b.v.x=0;
+		if (Math.abs(b.v.y) < Game.nullifyThreshold) b.v.y=0;
 	}
 };
 
@@ -210,7 +210,8 @@ io.addEvent('load',function(){
 	GUI.friction.add(Game,'shipBorderFriction',0.05,1).step(0.05);
 	GUI.friction.add(Game,'shipDrag',0.9,1).step(0.01);
 	GUI.friction.add(Game,'particleDrag',0.5,1).step(0.05);
-	GUI.friction.add(Game,'nullifyThreshold',0.1,1).step(0.1);
+	GUI.friction.add(Game,'nullifyThreshold',0.01,0.1).step(0.01);
+
 	GUI.thruster=GUI.main.addFolder("Thruster");
 	GUI.thruster.add(Game,'thrusterParticles',1,20).step(1);
 	GUI.thruster.add(Game,'thrusterAcceleration',0.05,4).step(0.05);
