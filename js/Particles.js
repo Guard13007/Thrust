@@ -49,6 +49,7 @@ var Particle=function(location,effect,size,speed,parent){
 	 * @todo Update link above to proper link once Jenjens.physics.vector() is documented.
 	 * @todo Figure out why this part of the documentation seems to be ignored.
 	 */
+	if (!speed) speed={x:0,y:0};
 	this.v=new vector(speed.x,speed.y);
 
 	if (parent) this.parent=parent;
