@@ -23,7 +23,7 @@ var GUI={
 var Render={
 	canvas:null,
 	context:null,
-	iterationDelay:33
+	iterationDelay:1000/30
 };
 /**
  * @namespace
@@ -208,7 +208,7 @@ io.addEvent('load',function(){
 
 	//set up GUI
 	GUI.main=new dat.GUI();
-	GUI.main.add(Render,'iterationDelay',{Max:1,'60':17,'30':33,'10':100,Min:2000}).name("FPS");
+	GUI.main.add(Render,'iterationDelay',{Max:1,'60':1000/60,'30':1000/30,'10':100,Min:1000}).name("FPS");
 
 	GUI.main.add(Game,'gravitationalAcceleration',0,2).step(0.1).name("g");
 	GUI.friction=GUI.main.addFolder("Friction");
