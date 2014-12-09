@@ -59,6 +59,7 @@ var Particle=function(location,effect,size,speed,parent){
 		this.onCreate();
 	}
 };
+
 /**
  * @description Defined Particle effects available.
  * @property {object} standard - White slowly fading to black.
@@ -121,6 +122,7 @@ Particle.effects={
 		}
 	}
 };
+
 Particle.prototype={
 	/**
 	 * @description If parent is an Array, splices itself out of parent. Then deletes itself.
