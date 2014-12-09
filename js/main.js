@@ -246,6 +246,22 @@ io.addEvent('load',function(){
 	Game.loop();
 });
 io.addEvent('resize',function(){
+	var previousWidth = Render.canvas.width;
+	var previousHeight = Render.cavnas.height;
 	Render.canvas.width=window.innerWidth;
 	Render.canvas.height=window.innerHeight;
+	/*
+	var scaleX = previousWidth / window.innerWidth;
+	var scaleY = previousHeight / window.innerHeight;
+	forEach(Game.ships, function(b){
+		b.x /= scaleX;
+		b.y /= scaleY;
+		b.width /= (scaleX > scaleY) ? scaleX : scaleY ;
+		b.height = b.width;
+		forEach(b.particles, function(a){
+			a.x /= scaleX;
+			a.y /= scaleY;
+		});
+	});
+	//*/
 });
